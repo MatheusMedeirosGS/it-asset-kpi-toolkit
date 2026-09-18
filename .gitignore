@@ -1,0 +1,32 @@
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# --- Sistema ---
+.DS_Store
+Thumbs.db
+
+# --- Editor ---
+.vscode/
+.idea/
+
+# --- Segredos e config local ---
+.env
+*.env
+*.secret.*
+config/*.local.json
+config/*.local.*
+
+# --- Dados reais: nunca versionar aqui ---
+# Este repositorio so deve conter os CSVs FICTICIOS de data/sample/.
+# Qualquer inventario/planilha real de uma organizacao deve ficar fora do
+# repositorio (ou em data/real/, que fica ignorado abaixo).
+data/real/
+*.xlsx
+*.xlsm
+*.xls
