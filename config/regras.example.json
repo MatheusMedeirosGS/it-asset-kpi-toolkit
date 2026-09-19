@@ -1,0 +1,17 @@
+{
+  "_comentario": "Regras de classificacao de obsolescencia. Este arquivo eh um EXEMPLO com valores ficticios. As regras reais de uma organizacao (quais modelos/processadores contam como obsoletos) devem ficar em config/regras.local.json, que e ignorado pelo git.",
+
+  "base_equipamento": ["Notebook", "Desktop", "Computador"],
+
+  "criterios_obsoleto": [
+    {"campo": "modelo", "contem": "ACME OFFICE X1"},
+    {"campo": "processador", "contem": "CPU-OLD"}
+  ],
+
+  "_logica": "Um ativo e classificado como obsoleto se QUALQUER UM dos criterios acima bater (logica OU, nao E - nao existe 'prioridade' entre eles, sao condicoes independentes). Na pratica, isso faz um criterio baseado em processador 'resgatar' um ativo cujo campo modelo foi digitado errado, porque o processador costuma ser um dado mais confiavel (coletado automaticamente) do que o modelo (digitado a mao).",
+
+  "estoque": {
+    "categoria_informatica": "Informatica",
+    "prefixos_material_validos": ["Notebook", "Microcomputador"]
+  }
+}
