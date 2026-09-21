@@ -1,0 +1,31 @@
+{
+  "_comentario": "Definicao das 'frentes' de programas que compoem o indicador de Ativos Pendentes de Cadastro. Exemplo com valores ficticios; as frentes reais de uma organizacao devem ficar em config/frentes.local.json, que e ignorado pelo git.",
+
+  "frentes_por_contagem": [
+    {
+      "nome": "Programa Exemplo (contratado fixo)",
+      "total_contratado": 40,
+      "modelo_patterns": ["PROGRAMA-X N100"]
+    }
+  ],
+
+  "frente_kit_distribuicao": {
+    "nome": "Kit de Distribuicao",
+    "arquivo": "kit_distribuicao.csv",
+    "coluna_quantidade": "qtd_notebooks_enviados",
+    "modelo_patterns": ["ACME PRO Z9"]
+  },
+
+  "frente_situacao_confirmada": {
+    "nome": "Programa com base de entregas (casamento por numero de serie)",
+    "arquivo": "entregas_consolidado.csv",
+    "coluna_situacao": "situacao",
+    "situacoes_validas": ["Entrega Confirmada", "Atendimento Realizado"],
+    "coluna_serie": "numero_serie"
+  },
+
+  "estoque": {
+    "categoria_informatica": "Informatica",
+    "prefixos_material_validos": ["Notebook", "Microcomputador"]
+  }
+}
