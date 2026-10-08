@@ -44,21 +44,24 @@ def normalize(series: pd.Series) -> pd.Series:
 
 
 def to_int_ptbr(series: pd.Series, contexto: str = "valor") -> pd.Series:
-    """Converte uma coluna de texto numerico para inteiro, aceitando tanto
-    '1762' quanto o formato pt-BR '1.762' ou '1.762,00'. Falha alto (nao
-    vira silenciosamente 0 ou 1) quando encontra algo que nao e numero,
-    porque esse e o tipo de erro que deixa um indicador de KPI errado sem
-    ninguem perceber."""
+    """Converte uma coluna de texto numerico para inteiro. Aceita '1762',
+    o formato pt-BR '1.762' / '1.762,00' e o decimal com ponto '301.0' (como
+    o pandas grava floats). O ponto so e separador de milhar quando segue o
+    padrao de grupos de 3 digitos ('1.762', '12.345.678'); caso contrario e
+    ponto decimal. Falha alto (nao vira silenciosamente 0 nem 10x) quando
+    encontra algo que nao e numero."""
     bruto = series.fillna("").astype(str).str.strip()
     vazio = bruto == ""
-    limpo = bruto.str.replace(".", "", regex=False).str.replace(",", ".", regex=False)
+    milhar = bruto.str.fullmatch(r"\d{1,3}(\.\d{3})+(,\d+)?")
+    limpo = bruto.where(~milhar, bruto.str.replace(".", "", regex=False))
+    limpo = limpo.str.replace(",", ".", regex=False)
     numerico = pd.to_numeric(limpo.where(~vazio, "0"), errors="coerce")
     invalidos = numerico.isna()
     if invalidos.any():
         exemplos = bruto[invalidos].unique()[:5].tolist()
         raise ValueError(
             f"{contexto}: encontrei {invalidos.sum()} valor(es) que nao sao numeros "
-            f"validos (nem 'NNNN' nem 'N.NNN,NN'). Exemplos: {exemplos}"
+            f"validos (nem 'NNNN', 'N.NNN,NN' nem 'NNN.N'). Exemplos: {exemplos}"
         )
     return numerico.round().astype(int)
 
